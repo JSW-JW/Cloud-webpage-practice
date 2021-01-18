@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@RequestMapping("/home")
+@RequestMapping("/notes")
 @Controller
 public class NoteController {
 
@@ -30,31 +30,32 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @GetMapping(params = "get_notes_list")
-    public String getNotesList(Model model, Authentication authentication) {
-        List<Note> notes = noteService.getNotes(authentication.getName());
+    @GetMapping()
+    public String getNotesList(Model model, Note note, Authentication authentication) {
+        User user = userService.getUser(authentication.getName());
+        List<Note> notes = noteService.getNotes(user.getUserId());
         model.addAttribute("notes", notes);
         return "home";
     }
 
-    @PostMapping(params = "add_note")
-    public String addNote(Authentication authentication, Note note, Model model) {
+    @PostMapping("/add")
+    public String save(Authentication authentication, Note note, Model model) {
         User user = userService.getUser(authentication.getName());
         note.setUser(user);
         noteService.insert(note);
-        return "result";
+        return "redirect:/notes";
     }
 
-    @PostMapping(params = "update_note")
+    @PostMapping("/update")
     public String updateNote(Note note) {
         note.setNoteTitle(note.getNoteTitle());
         note.setNoteDescription(note.getNoteDescription());
-        return "home";
+        return "redirect:/notes";
     }
 
-    @GetMapping(value = "/delete", params = "delete_note")
+    @GetMapping("/delete")
     public String deleteNote(@RequestParam("noteId") Integer noteId) {
         noteService.delete(noteId);
-        return "home";
+        return "redirect:/notes";
     }
 }

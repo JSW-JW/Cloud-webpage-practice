@@ -1,0 +1,21 @@
+<resultMap type="Note" id="Note">
+    <result column="owner_id" property="ownerId"/>
+    <result column="model_no" property="modelNo"/>
+    <result column="color" property="color"/>
+</resultMap>
+
+<resultMap type="Person" id="Person">
+<result column="id" property="id"/>
+<result column="name" property="name"/>
+<result column="age" property="age"/>
+<collection property="car" resultMap="Car"/>
+</resultMap>
+
+<select id="selectPersonById" parameterType="String" resultMap="Person">
+SELECT p.id, p.name, p.age
+c.owner_id, c.model_no, c.color
+FROM person p
+JOIN car c
+ON p.id = c.owner_id
+WHERE p.id = #{id}
+</select>

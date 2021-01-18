@@ -12,13 +12,13 @@ public class File {
     private String fileName;
     private String contentType;
     private String fileSize;
-    private Blob fileData;
+    private Byte fileData;
     private User user;
 
     public File() {
     }
 
-    public File(Integer fileId, String fileName, String contentType, String fileSize, Blob fileData, User user) {
+    public File(Integer fileId, String fileName, String contentType, String fileSize, Byte fileData, User user) {
         this.fileId = fileId;
         this.fileName = fileName;
         this.contentType = contentType;
