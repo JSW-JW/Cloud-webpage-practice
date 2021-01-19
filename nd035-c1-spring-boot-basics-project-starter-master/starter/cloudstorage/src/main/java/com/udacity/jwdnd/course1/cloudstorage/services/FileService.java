@@ -15,12 +15,12 @@ public class FileService {
         this.fileMapper = fileMapper;
     }
 
-    public void insert(File file) {
-        fileMapper.insert(file);
-    }
-
     public List<File> getFiles(Integer userId) {
         return fileMapper.getFiles(userId);
+    }
+
+    public void insert(File file) {
+        fileMapper.insert(file);
     }
 
     public File download(Integer fileId) {

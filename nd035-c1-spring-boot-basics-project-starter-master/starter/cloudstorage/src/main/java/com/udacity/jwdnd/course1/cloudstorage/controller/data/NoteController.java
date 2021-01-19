@@ -1,11 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller.data;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
-import com.udacity.jwdnd.course1.cloudstorage.model.File;
 import com.udacity.jwdnd.course1.cloudstorage.model.Note;
 import com.udacity.jwdnd.course1.cloudstorage.model.User;
-import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
-import com.udacity.jwdnd.course1.cloudstorage.services.FileService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NoteService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
@@ -16,9 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-
-@RequestMapping("/notes")
+@RequestMapping("/note")
 @Controller
 public class NoteController {
 
@@ -30,32 +24,21 @@ public class NoteController {
         this.noteService = noteService;
     }
 
-    @GetMapping()
-    public String getNotesList(Model model, Note note, Authentication authentication) {
-        User user = userService.getUser(authentication.getName());
-        List<Note> notes = noteService.getNotes(user.getUserId());
-        model.addAttribute("notes", notes);
-        return "home";
-    }
-
-    @PostMapping("/add")
-    public String save(Authentication authentication, Note note, Model model) {
-        User user = userService.getUser(authentication.getName());
-        note.setUser(user);
-        noteService.insert(note);
-        return "redirect:/notes";
-    }
-
-    @PostMapping("/update")
-    public String updateNote(Note note) {
-        note.setNoteTitle(note.getNoteTitle());
-        note.setNoteDescription(note.getNoteDescription());
-        return "redirect:/notes";
+    @PostMapping("/save")
+    public String save(Authentication authentication, Note note) {
+        if (note.getNoteId() == null) {
+            User user = userService.getUser(authentication.getName());
+            note.setUser(user);
+            noteService.insert(note);
+        } else {
+            noteService.update(note);
+        }
+        return "redirect:/home";
     }
 
     @GetMapping("/delete")
     public String deleteNote(@RequestParam("noteId") Integer noteId) {
         noteService.delete(noteId);
-        return "redirect:/notes";
+        return "redirect:/home";
     }
 }

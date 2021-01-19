@@ -4,11 +4,11 @@ import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+import org.thymeleaf.util.TextUtils;
 
-@RequestMapping("/credentials")
+@RequestMapping("/credential")
 @Controller
 public class CredentialController {
 
@@ -20,19 +20,20 @@ public class CredentialController {
         this.credentialService = credentialService;
     }
 
-    @GetMapping()
-    public String getCredentialsList() {
+    @PostMapping("/save")
+    public String saveCredential(Model model, Credential credential) {
+        if (credential.getCredentialId().toString().equals("")) {
+            credentialService.insert(credential);
+        }
+        else {
+            credentialService.update(credential);
+        }
         return "home";
-    }
-
-    @PostMapping("/add")
-    public String addCredential() {
-        return "redirect:/credentials";
     }
 
     @GetMapping("/delete")
     public String deleteCredential(Credential credential) {
         credentialService.delete(credential);
-        return "redirect:/credentials";
+        return "home";
     }
 }

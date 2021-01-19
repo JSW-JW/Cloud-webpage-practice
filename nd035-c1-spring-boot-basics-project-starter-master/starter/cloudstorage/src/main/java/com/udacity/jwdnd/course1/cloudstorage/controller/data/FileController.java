@@ -9,13 +9,11 @@ import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RequestMapping("/files")
+@RequestMapping("/file")
 @Controller
 public class FileController {
 
@@ -27,29 +25,27 @@ public class FileController {
         this.userService = userService;
     }
 
-    @GetMapping()
-    public String getFilesList(Model model, Credential credential, Note note, File file, Authentication authentication) {
-        User user = userService.getUser(authentication.getName());
-        List<File> files = fileService.getFiles(user.getUserId());
-        model.addAttribute("files", files);
+    @PostMapping("/add")
+    public String addFile(File file, Model model) {
+        fileService.insert(file);
         return "home";
     }
 
-    @GetMapping(params = "nav_files")
-    public String getFiles(Credential credential, Note note, File file) {
-        System.out.println("here");
+    @GetMapping("/download")
+    public String downloadFile(File file, Model model) {
         return "home";
     }
 
-    // TODO: request download file.
-
-    // TODO: view file detail.
+    @GetMapping("/view")
+    public String viewFileDetail(File file, Model model) {
+        return "home";
+    }
 
     @GetMapping("/delete")
-    public String deleteFile(@RequestParam("fileId") Integer fileId) {
+    public String deleteFile(File file) {
         // TODO : check if the file belongs to authenticated user.
 
-        fileService.delete(fileId);
+        fileService.delete(file.getFileId());
         return "redirect:/home";
     }
 }
