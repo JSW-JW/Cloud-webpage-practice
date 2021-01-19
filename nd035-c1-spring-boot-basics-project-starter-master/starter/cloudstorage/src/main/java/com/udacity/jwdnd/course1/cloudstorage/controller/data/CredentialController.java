@@ -3,6 +3,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controller.data;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credential;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,19 +22,20 @@ public class CredentialController {
     }
 
     @PostMapping("/save")
-    public String saveCredential(Model model, Credential credential) {
-        if (credential.getCredentialId().toString().equals("")) {
-            credentialService.insert(credential);
+    public String saveCredential(Model model, Credential credential, Authentication authentication) {
+        if (credential.getCredentialId() == null) {
+            Integer userId = userService.getUser(authentication.getName()).getUserId();
+            credentialService.insert(credential, userId);
         }
         else {
             credentialService.update(credential);
         }
-        return "home";
+        return "redirect:/home";
     }
 
     @GetMapping("/delete")
-    public String deleteCredential(Credential credential) {
-        credentialService.delete(credential);
-        return "home";
+    public String deleteCredential(@RequestParam("id") Integer credId) {
+        credentialService.delete(credId);
+        return "redirect:/home";
     }
 }
