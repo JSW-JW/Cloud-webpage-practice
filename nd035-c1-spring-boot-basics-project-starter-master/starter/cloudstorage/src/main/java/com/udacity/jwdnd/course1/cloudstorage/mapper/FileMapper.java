@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface FileMapper {
 
-    @Insert("insert into files (fileName, contentType, fileSize, userId, fileData) values (#{fileName}, #{contentType}, #{fileSize}, #{user.userId}, #{fileData})")
+    @Insert("insert into files (fileName, contentType, fileSize, userId, fileData) values (#{fileName}, #{contentType}, #{fileSize}, #{userId}, #{fileData})")
     @Options(useGeneratedKeys = true, keyProperty = "fileId")
     Integer insert(File file);
 

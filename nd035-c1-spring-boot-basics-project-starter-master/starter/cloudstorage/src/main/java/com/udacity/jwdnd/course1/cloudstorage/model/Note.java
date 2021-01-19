@@ -8,15 +8,15 @@ public class Note {
     private Integer noteId;
     private String noteTitle;
     private String noteDescription;
-    private User user;
+    private Integer userId;
 
     public Note() {
     }
 
-    public Note(Integer noteId, String noteTitle, String noteDescription, User user) {
+    public Note(Integer noteId, String noteTitle, String noteDescription, Integer userId) {
         this.noteId = noteId;
         this.noteTitle = noteTitle;
         this.noteDescription = noteDescription;
-        this.user = user;
+        this.userId = userId;
     }
 }

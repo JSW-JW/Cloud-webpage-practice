@@ -11,17 +11,17 @@ public class Credential {
     private String username;
     private String key;
     private String password;
-    private User user;
+    private Integer userId;
 
     public Credential() {
     }
 
-    public Credential(Integer credentialId, String url, String username, String key, String password, User user) {
+    public Credential(Integer credentialId, String url, String username, String key, String password, Integer userId) {
         this.credentialId = credentialId;
         this.url = url;
         this.username = username;
         this.key = key;
         this.password = password;
-        this.user = user;
+        this.userId = userId;
     }
 }

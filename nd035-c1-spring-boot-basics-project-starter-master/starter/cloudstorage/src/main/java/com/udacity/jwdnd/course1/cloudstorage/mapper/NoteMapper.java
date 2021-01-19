@@ -8,7 +8,7 @@ import java.util.List;
 @Mapper
 public interface NoteMapper {
 
-    @Insert("INSERT INTO NOTES (noteTitle, noteDescription, userId) VALUES (#{noteTitle}, #{noteDescription}, #{user.userId})")
+    @Insert("INSERT INTO NOTES (noteTitle, noteDescription, userId) VALUES (#{noteTitle}, #{noteDescription}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "noteId")
     Integer insert(Note note);
 
@@ -21,4 +21,6 @@ public interface NoteMapper {
     @Delete("delete notes where noteId = #{noteId}")
     void delete(Integer noteId);
 
+    @Select("select * from notes where noteId = #{noteId}")
+    Note findById(Integer noteId);
 }

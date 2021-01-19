@@ -28,7 +28,7 @@ public class NoteController {
     public String save(Authentication authentication, Note note) {
         if (note.getNoteId() == null) {
             User user = userService.getUser(authentication.getName());
-            note.setUser(user);
+            note.setUserId(user.getUserId());
             noteService.insert(note);
         } else {
             noteService.update(note);
@@ -37,7 +37,13 @@ public class NoteController {
     }
 
     @GetMapping("/delete")
-    public String deleteNote(@RequestParam("noteId") Integer noteId) {
+    public String deleteNote(@RequestParam("noteId") Integer noteId, Authentication authentication) {
+        String authUsername = authentication.getName();
+        Integer authUserId = userService.getUser(authUsername).getUserId();
+        Note findNote = noteService.findNoteById(noteId);
+        if (!findNote.getUserId().equals(authUserId)) {
+            return "redirect:/home";
+        }
         noteService.delete(noteId);
         return "redirect:/home";
     }

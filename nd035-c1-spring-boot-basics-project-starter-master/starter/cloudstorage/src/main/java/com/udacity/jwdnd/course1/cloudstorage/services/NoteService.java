@@ -33,6 +33,6 @@ public class NoteService {
     }
 
     public Note findNoteById(Integer id) {
-        return null;
+        return noteMapper.findById(id);
     }
 }
