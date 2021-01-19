@@ -19,6 +19,10 @@ public class FileService {
         return fileMapper.getFiles(userId);
     }
 
+    public File getByFileId(Integer fileId) {
+        return fileMapper.getByFileId(fileId);
+    }
+
     public void insert(File file) {
         fileMapper.insert(file);
     }

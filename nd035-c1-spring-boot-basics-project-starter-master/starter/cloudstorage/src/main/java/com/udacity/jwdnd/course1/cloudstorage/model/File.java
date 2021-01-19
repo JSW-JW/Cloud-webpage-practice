@@ -10,13 +10,13 @@ public class File {
     private String fileName;
     private String contentType;
     private String fileSize;
-    private Byte fileData;
+    private byte[] fileData;
     private Integer userId;
 
     public File() {
     }
 
-    public File(Integer fileId, String fileName, String contentType, String fileSize, Byte fileData, Integer userId) {
+    public File(Integer fileId, String fileName, String contentType, String fileSize, byte[] fileData, Integer userId) {
         this.fileId = fileId;
         this.fileName = fileName;
         this.contentType = contentType;

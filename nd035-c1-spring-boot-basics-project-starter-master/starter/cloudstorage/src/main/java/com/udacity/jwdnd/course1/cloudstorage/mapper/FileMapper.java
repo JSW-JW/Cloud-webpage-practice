@@ -20,4 +20,7 @@ public interface FileMapper {
 
     @Select("select * from files where userId = #{userId}")
     List<File> getFiles(Integer userId);
+
+    @Select("select * from files where fileId = #{fileId}")
+    File getByFileId(Integer fileId);
 }
