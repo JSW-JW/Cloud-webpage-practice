@@ -15,7 +15,7 @@ public interface CredentialMapper {
     @Select("select * from credentials where userId = #{userId}")
     List<Credential> findAll(Integer userId);
 
-    @Update("update credentials set url = #{url}, username = #{username}, password = #{password} where credentialId = #{credentialId}")
+    @Update("update credentials set url = #{url}, username = #{username}, key = #{key}, password = #{password} where credentialId = #{credentialId}")
     void update(Credential credential);
 
     @Delete("delete credentials where credentialId = #{credentialId}")
