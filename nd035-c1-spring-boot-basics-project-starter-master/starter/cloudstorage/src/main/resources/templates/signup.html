@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/index.css}">
         <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
 
         <title>Sign Up</title>
@@ -11,15 +12,15 @@
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container justify-content-center w-50 p-3" style="background-color: #eeeeee; margin-top: 5em;">
             <div class="form-group">
-                <label><a>Back to Login</a></label>
+                <label><a th:href="@{'/login'}">Back to Login</a></label>
             </div>
 
             <h1 class="display-5">Sign Up</h1>
             <form action="#" th:object=${user} th:action="@{/signup}" method="POST">
-                <div class="alert alert-dark">
+                <div class="alert alert-dark" th:classappend="${successMsg} == null ? parameter-hidden : parameter-visible">
                     You successfully signed up! Please continue to the <a>login</a> page.
                 </div>
-                <div class="alert alert-danger">
+                <div class="alert alert-danger" th:classappend="${errorMsg} == null ? parameter-hidden : parameter-visible">
                     <span>Example Signup Error Message</span>
                 </div>
                 <div class="form-row">

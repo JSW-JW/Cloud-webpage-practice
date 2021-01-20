@@ -1,0 +1,22 @@
+.upload-error-hidden {
+    display:none;
+}
+
+.upload-error-visible {
+    display: block;
+    color:red;
+    font-weight: bold;
+    font-size:14px;
+    padding-left: 15px;
+}
+
+.parameter-hidden {
+    display:none;
+}
+
+.parameter-visible {
+    display: block;
+    color:red;
+    font-weight: bold;
+    font-size: 14px;
+}

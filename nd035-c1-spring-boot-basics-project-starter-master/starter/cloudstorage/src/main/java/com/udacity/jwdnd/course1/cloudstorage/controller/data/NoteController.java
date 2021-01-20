@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @RequestMapping("/note")
 @Controller
@@ -25,7 +26,7 @@ public class NoteController {
     }
 
     @PostMapping("/save")
-    public String save(Authentication authentication, Note note) {
+    public String save(RedirectAttributes redirectAttributes, Authentication authentication, Note note) {
         if (note.getNoteId() == null) {
             User user = userService.getUser(authentication.getName());
             note.setUserId(user.getUserId());
@@ -33,11 +34,12 @@ public class NoteController {
         } else {
             noteService.update(note);
         }
+        redirectAttributes.addAttribute("reqPage", "notePage");
         return "redirect:/home";
     }
 
     @GetMapping("/delete")
-    public String deleteNote(@RequestParam("noteId") Integer noteId, Authentication authentication) {
+    public String deleteNote(RedirectAttributes redirectAttributes, @RequestParam("noteId") Integer noteId, Authentication authentication) {
         String authUsername = authentication.getName();
         Integer authUserId = userService.getUser(authUsername).getUserId();
         Note findNote = noteService.findNoteById(noteId);
@@ -45,6 +47,7 @@ public class NoteController {
             return "redirect:/home";
         }
         noteService.delete(noteId);
+        redirectAttributes.addAttribute("reqPage", "notePage");
         return "redirect:/home";
     }
 }

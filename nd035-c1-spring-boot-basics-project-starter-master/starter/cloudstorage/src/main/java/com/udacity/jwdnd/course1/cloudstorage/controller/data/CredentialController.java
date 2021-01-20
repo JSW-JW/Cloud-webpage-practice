@@ -7,6 +7,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.thymeleaf.util.TextUtils;
 
 @RequestMapping("/credential")
@@ -22,7 +23,7 @@ public class CredentialController {
     }
 
     @PostMapping("/save")
-    public String saveCredential(Model model, Credential credential, Authentication authentication) {
+    public String saveCredential(RedirectAttributes redirectAttributes, Model model, Credential credential, Authentication authentication) {
         if (credential.getCredentialId() == null) {
             Integer userId = userService.getUser(authentication.getName()).getUserId();
             credentialService.insert(credential, userId);
@@ -30,12 +31,14 @@ public class CredentialController {
         else {
             credentialService.update(credential);
         }
+        redirectAttributes.addAttribute("reqPage", "credentialPage");
         return "redirect:/home";
     }
 
     @GetMapping("/delete")
-    public String deleteCredential(@RequestParam("id") Integer credId) {
+    public String deleteCredential(RedirectAttributes redirectAttributes, @RequestParam("id") Integer credId) {
         credentialService.delete(credId);
+        redirectAttributes.addAttribute("reqPage", "credentialPage");
         return "redirect:/home";
     }
 }

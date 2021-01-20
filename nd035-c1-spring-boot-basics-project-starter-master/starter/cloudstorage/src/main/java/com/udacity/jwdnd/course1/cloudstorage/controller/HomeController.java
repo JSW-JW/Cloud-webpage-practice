@@ -12,7 +12,9 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -33,11 +35,13 @@ public class HomeController {
     }
 
     @GetMapping()
-    public String getHome(Note note, File file, Credential credential, Model model, Authentication authentication) {
+    public String getHome(@RequestParam(value = "msg", required = false) String msg, @RequestParam(value = "reqPage", required = false) String reqPage, Note note, File file, Credential credential, Model model, Authentication authentication) {
         User user = userService.getUser(authentication.getName());
         List<File> files = fileService.getFiles(user.getUserId());
         List<Note> notes = noteService.getNotes(user.getUserId());
         List<Credential> credentials = credentialService.getCredentials(user.getUserId());
+        model.addAttribute("msg", msg);
+        model.addAttribute("reqPage", reqPage);
         model.addAttribute("files", files);
         model.addAttribute("notes", notes);
         model.addAttribute("credentials", credentials);

@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
@@ -37,11 +38,16 @@ public class FileController {
     }
 
     @PostMapping("/add")
-    public String addFile(@RequestParam("fileUpload") MultipartFile multi, Authentication authentication) throws IOException {
+    public String addFile(RedirectAttributes redirectAttributes, @RequestParam("fileUpload") MultipartFile multi, Authentication authentication, Model model) throws IOException {
+        if (multi.isEmpty()) {
+            redirectAttributes.addAttribute("msg","업로드 하시려면 파일을 선택해 주세요.");
+            return "redirect:/home";
+        }
         Integer userId = userService.getUser(authentication.getName()).getUserId();
         String fileName = CommonUtils.getRandomString() + multi.getOriginalFilename();
         File file = new File(null, fileName, multi.getContentType(), String.valueOf(multi.getSize()), multi.getBytes(), userId);
         fileService.insert(file);
+        redirectAttributes.addAttribute("reqPage", "filePage");
         return "redirect:/home";
     }
 
@@ -66,13 +72,14 @@ public class FileController {
     }
 
     @GetMapping("/delete")
-    public String deleteFile(@RequestParam("fileId") Integer fileId, Authentication authentication) {
+    public String deleteFile(RedirectAttributes redirectAttributes, @RequestParam("fileId") Integer fileId, Authentication authentication) {
         Integer authUserId = userService.getUser(authentication.getName()).getUserId();
         File findFile = fileService.getByFileId(fileId);
         if (!findFile.getUserId().equals(authUserId)) {  // check if the file belongs to authenticated user.
             return "redirect:/home";
         }
         fileService.delete(fileId);
+        redirectAttributes.addAttribute("reqPage", "filePage");
         return "redirect:/home";
     }
 }

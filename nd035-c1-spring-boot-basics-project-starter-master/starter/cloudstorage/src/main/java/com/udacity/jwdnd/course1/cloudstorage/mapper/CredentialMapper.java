@@ -6,19 +6,19 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface CredentialMapper {
+public interface CredentialMapper extends Rule {
 
     @Insert("insert into credentials (url, username, key, password, userId) values(#{url}, #{username}, #{key}, #{password}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "credentialId")
-    Integer insert(Credential credential);
+    Integer insert(Object add);
 
     @Select("select * from credentials where userId = #{userId}")
     List<Credential> findAll(Integer userId);
 
     @Update("update credentials set url = #{url}, username = #{username}, key = #{key}, password = #{password} where credentialId = #{credentialId}")
-    void update(Credential credential);
+    Integer update(Credential credential);
 
     @Delete("delete credentials where credentialId = #{credentialId}")
-    void delete(Integer id);
+    Integer delete(Integer id);
 
 }

@@ -6,21 +6,22 @@ import org.apache.ibatis.annotations.*;
 import java.util.List;
 
 @Mapper
-public interface NoteMapper {
+public interface NoteMapper extends Rule {
 
     @Insert("INSERT INTO NOTES (noteTitle, noteDescription, userId) VALUES (#{noteTitle}, #{noteDescription}, #{userId})")
     @Options(useGeneratedKeys = true, keyProperty = "noteId")
-    Integer insert(Note note);
-
-    @Select("select * from notes where userId = #{userId}")
-    List<Note> getNotes(Integer userId);
-
-    @Update("update notes set noteTitle = #{noteTitle}, noteDescription = #{noteDescription} where noteId = #{noteId}")
-    void update(Note note);
-
-    @Delete("delete notes where noteId = #{noteId}")
-    void delete(Integer noteId);
+    Integer insert(Object add);
 
     @Select("select * from notes where noteId = #{noteId}")
     Note findById(Integer noteId);
+
+    @Select("select * from notes where userId = #{userId}")
+    List<Note> findAll(Integer userId);
+
+    @Update("update notes set noteTitle = #{noteTitle}, noteDescription = #{noteDescription} where noteId = #{noteId}")
+    Integer update(Object update);
+
+    @Delete("delete notes where noteId = #{noteId}")
+    Integer delete(Integer noteId);
+
 }

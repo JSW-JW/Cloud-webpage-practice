@@ -20,7 +20,7 @@ public class FileService {
     }
 
     public File getByFileId(Integer fileId) {
-        return fileMapper.getByFileId(fileId);
+        return fileMapper.findById(fileId);
     }
 
     public void insert(File file) {

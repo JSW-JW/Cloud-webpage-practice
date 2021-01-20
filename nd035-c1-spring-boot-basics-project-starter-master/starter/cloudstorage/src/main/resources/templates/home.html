@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+        <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/index.css}">
         <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/bootstrap.min.css}">
 
         <title>Home</title>
@@ -11,15 +12,15 @@
     <body class="p-3 mb-2 bg-light text-black">
         <div class="container">
             <div id="logoutDiv">
-                <form action="#" th:action=@{'/home'} method="POST">
+                <form action="#" th:action=@{'/logout'} method="POST">
                     <button type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
             <div id="contentDiv" style="clear: right;">
                 <nav style="clear: right;">
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                        <a class="nav-item nav-link active" id="nav-files-tab" data-toggle="tab" name="nav_files" href="#nav-files" role="tab" aria-controls="nav-files" aria-selected="true">Files</a>
-                        <a class="nav-item nav-link" id="nav-notes-tab" data-toggle="tab"  href="#nav-notes" role="tab" aria-controls="nav-notes" aria-selected="false">Notes</a>
+                        <a class="nav-item nav-link active" id="nav-files-tab" data-toggle="tab" name="nav_files" href="#nav-files" role="tab" aria-controls="nav-files" aria-selected="false">Files</a>
+                        <a class="nav-item nav-link" id="nav-notes-tab" data-toggle="tab"  href="#nav-notes" role="tab" aria-controls="nav-notes" aria-selected="true">Notes</a>
                         <a class="nav-item nav-link" id="nav-credentials-tab" data-toggle="tab" href="#nav-credentials" role="tab" aria-controls="nav-credentials" aria-selected="false">Credentials</a>
                     </div>
                 </nav>
@@ -37,6 +38,9 @@
                                     </div>
                                     <div class="col-sm-4">
                                         <button id="fileSubmitButton" type="submit" class="btn btn-dark">Upload</button>
+                                    </div>
+                                    <div class="file-upload-error" th:classappend="${msg} == null ? 'upload-error-hidden' : 'upload-error-visible'">
+                                        <span th:text="${msg}">Upload Error</span>
                                     </div>
                                 </div>
                             </div>
@@ -200,6 +204,38 @@
 
         <!--For opening the note modal-->
         <script type="text/javascript">
+
+            // execute immediately for handling reqPage(Note, File, Credential)
+            $(document).ready(function(){
+                handleReqPage();
+            });
+
+            // get urlParameter
+            function getParam(sname) {
+                var params = location.search.substr(location.search.indexOf("?") + 1);
+                var sval = "";
+                params = params.split("&");
+                for (var i = 0; i < params.length; i++) {
+                    temp = params[i].split("=");
+                    if ([temp[0]] == sname) { sval = temp[1]; }
+                }
+                return sval;
+            }
+
+            // For showing the Note, File, Credential Page after CRUD operations.
+            function handleReqPage(){
+                var reqPage = getParam("reqPage");
+                if (reqPage == "notePage") {
+                    $("#nav-notes-tab").trigger("click");
+                }
+                else if (reqPage == "credentialPage") {
+                    $("#nav-credentials-tab").trigger("click");
+                }
+                else {
+                    $("#nav-files-tab").trigger("click");
+                }
+            };
+
             // For opening the note modal
             function showNoteModal(noteId, noteTitle, noteDescription) {
                 $('#note-id').val(noteId ? noteId : '');

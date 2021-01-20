@@ -17,7 +17,7 @@ public class NoteService {
     }
 
     public List<Note> getNotes(Integer userId) {
-        return noteMapper.getNotes(userId);
+        return noteMapper.findAll(userId);
     }
 
     public void insert(Note note) {

@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Select;
 
 @Mapper
-public interface UserMapper extends Rule {
+public interface UserMapper {
 
     @Select("SELECT * FROM USERS WHERE username=#{username}")
     User getUser(String username);

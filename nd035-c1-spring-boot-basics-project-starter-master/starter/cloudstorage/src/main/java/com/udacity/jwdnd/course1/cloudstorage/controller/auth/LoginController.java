@@ -1,15 +1,25 @@
 package com.udacity.jwdnd.course1.cloudstorage.controller.auth;
 
+import com.udacity.jwdnd.course1.cloudstorage.model.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/login")
 @Controller
 public class LoginController {
 
     @GetMapping()
-    public String getLogin() {
+    public String getLogin(@RequestParam(value = "logoutMsg", required = false) String logoutMsg, @RequestParam(value = "errorMsg", required = false) String errorMsg, Model model) {
+        if (errorMsg != null) {
+            model.addAttribute("errorMsg", "Invalid username or password");
+        }
+        if (logoutMsg != null) {
+            model.addAttribute("logoutMsg", "You have been logged out");
+        }
         return "login";
     }
 
