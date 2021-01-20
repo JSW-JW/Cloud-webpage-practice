@@ -55,9 +55,14 @@ public class FileController {
         return new ResponseEntity<byte[]>(image, headers, HttpStatus.OK);
     }
 
-    @GetMapping("/view")
-    public String viewFileDetail(File file, Model model) {
-        return "home";
+    @GetMapping(value = "/view")
+    public ResponseEntity<byte[]> viewFile(@RequestParam("fileId") Integer fileId) {
+        byte[] image = fileService.getByFileId(fileId).getFileData();
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Disposition", "inline; filename=\"" + fileId + ".jpg\"");
+        headers.setContentLength(image.length);
+        headers.setContentType(MediaType.IMAGE_JPEG);
+        return new ResponseEntity<byte[]>(image, headers, HttpStatus.OK);
     }
 
     @GetMapping("/delete")
