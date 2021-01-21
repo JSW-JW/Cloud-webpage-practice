@@ -83,10 +83,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr th:each="note, iterStat : ${notes}">
+                                    <tr th:each="note : ${notes}">
                                         <td>
-                                            <button th:id="edit_note" type="button" th:onclick="javascript:showNoteModal([[${note.noteId}]], [[${note.noteTitle}]], [[${note.noteDescription}]])" class="btn btn-success">Edit</button>
-                                            <a th:id="delete_note" th:href="@{/note/delete(noteId=*{note.noteId})}" name="delete_note" class="btn btn-danger">Delete</a>
+                                            <button id="edit_note" type="button" th:onclick="javascript:showNoteModal([[${note.noteId}]], [[${note.noteTitle}]], [[${note.noteDescription}]])" class="btn btn-success">Edit</button>
+                                            <a id="delete_note" th:href="@{/note/delete(noteId=*{note.noteId})}" name="delete_note" class="btn btn-danger">Delete</a>
                                             <!-- delete note -->
                                         </td>
                                         <th id="note_title_text" scope="row" th:text=*{note.noteTitle}>Example Note Title</th>
@@ -108,7 +108,7 @@
                                     <div class="modal-body">
                                         <!-- insert, update note-->
                                         <form action="#" th:object="${note}" th:action="@{'/note/save'}" method="POST">
-                                            <input type="hidden" th:field=*{noteId} name="noteId" id="note-id">
+                                            <input type="hidden" th:field=*{noteId} name="noteId" id="note_id">
                                             <div class="form-group">
                                                 <label for="note_title" class="col-form-label">Title</label>
                                                 <input type="text" th:field=*{noteTitle} name= "noteTitle" class="form-control" id="note_title" maxlength="20" required>
@@ -170,7 +170,7 @@
                                     </div>
                                     <div class="modal-body">
                                         <form action="#" th:object=${credential} th:action="@{'/credential/save'}" method="post">
-                                            <input type="hidden" th:field=*{credentialId} name="credentialId" id="credential-id">
+                                            <input type="hidden" th:field=*{credentialId} name="credentialId" id="credential_id_input">
                                             <div class="form-group">
                                                 <label for="credential_url_input" class="col-form-label">URL</label>
                                                 <input id="credential_url_input" type="text" th:field=*{url} name= "url" class="form-control" maxlength="100" required>
@@ -238,18 +238,18 @@
 
             // For opening the note modal
             function showNoteModal(noteId, noteTitle, noteDescription) {
-                $('#note-id').val(noteId ? noteId : '');
-                $('#note-title').val(noteTitle ? noteTitle : '');
-                $('#note-description').val(noteDescription ? noteDescription : '');
+                $('#note_id').val(noteId ? noteId : '');
+                $('#note_title').val(noteTitle ? noteTitle : '');
+                $('#note_description').val(noteDescription ? noteDescription : '');
                 $('#noteModal').modal('show');
             }
 
             // For opening the credentials modal
             function showCredentialModal(credentialId, url, username, password) {
-                $('#credential-id').val(credentialId ? credentialId : '');
-                $('#credential-url').val(url ? url : '');
-                $('#credential-username').val(username ? username : '');
-                $('#credential-password').val(password ? password : '');
+                $('#credential_id_input').val(credentialId ? credentialId : '');
+                $('#credential_url_input').val(url ? url : '');
+                $('#credential_username_input').val(username ? username : '');
+                $('#credential_password_input').val(password ? password : '');
                 $('#credentialModal').modal('show');
             }
         </script>
