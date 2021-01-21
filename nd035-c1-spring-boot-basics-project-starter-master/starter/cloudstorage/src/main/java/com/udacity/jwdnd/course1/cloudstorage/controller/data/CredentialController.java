@@ -36,7 +36,13 @@ public class CredentialController {
     }
 
     @GetMapping("/delete")
-    public String deleteCredential(RedirectAttributes redirectAttributes, @RequestParam("id") Integer credId) {
+    public String deleteCredential(RedirectAttributes redirectAttributes, @RequestParam("id") Integer credId, Authentication authentication) {
+        Credential findCred = credentialService.findById(credId);
+        Integer authUserId = userService.getUser(authentication.getName()).getUserId();
+        if(!findCred.getUserId().equals(authUserId)) {
+            return "redirect:/home";
+        }
+
         credentialService.delete(credId);
         redirectAttributes.addAttribute("reqPage", "credentialPage");
         return "redirect:/home";

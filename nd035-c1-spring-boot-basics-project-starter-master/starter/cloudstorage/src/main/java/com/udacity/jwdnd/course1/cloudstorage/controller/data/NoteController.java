@@ -43,7 +43,7 @@ public class NoteController {
         String authUsername = authentication.getName();
         Integer authUserId = userService.getUser(authUsername).getUserId();
         Note findNote = noteService.findNoteById(noteId);
-        if (!findNote.getUserId().equals(authUserId)) {
+        if (!findNote.getUserId().equals(authUserId)) { // secure delete process from unrelated user.
             return "redirect:/home";
         }
         noteService.delete(noteId);

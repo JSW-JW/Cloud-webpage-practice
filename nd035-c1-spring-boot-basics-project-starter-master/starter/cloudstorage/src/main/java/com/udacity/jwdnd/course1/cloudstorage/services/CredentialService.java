@@ -33,6 +33,14 @@ public class CredentialService {
         credentialMapper.insert(credential);
     }
 
+    public List<Credential> getCredentials(Integer userId) {
+        return credentialMapper.findAll(userId);
+    }
+
+    public Credential findById(Integer id) {
+        return credentialMapper.findById(id);
+    }
+
     public void update(Credential credential) {
         String password = credential.getPassword();
         SecureRandom random = new SecureRandom();
@@ -47,9 +55,5 @@ public class CredentialService {
 
     public void delete(Integer id) {
         credentialMapper.delete(id);
-    }
-
-    public List<Credential> getCredentials(Integer userId) {
-        return credentialMapper.findAll(userId);
     }
 }

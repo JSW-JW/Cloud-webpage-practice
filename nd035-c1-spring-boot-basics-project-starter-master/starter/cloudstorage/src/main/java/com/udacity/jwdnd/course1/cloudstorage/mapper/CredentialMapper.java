@@ -15,6 +15,9 @@ public interface CredentialMapper extends Rule {
     @Select("select * from credentials where userId = #{userId}")
     List<Credential> findAll(Integer userId);
 
+    @Select("select * from credentials where credentialId = #{credId}")
+    Credential findById(Integer credId);
+
     @Update("update credentials set url = #{url}, username = #{username}, key = #{key}, password = #{password} where credentialId = #{credentialId}")
     Integer update(Credential credential);
 
