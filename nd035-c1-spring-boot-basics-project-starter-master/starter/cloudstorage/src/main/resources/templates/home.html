@@ -13,7 +13,7 @@
         <div class="container">
             <div id="logoutDiv">
                 <form action="#" th:action=@{'/logout'} method="POST">
-                    <button type="submit" class="btn btn-secondary float-right">Logout</button>
+                    <button id="logout_button" type="submit" class="btn btn-secondary float-right">Logout</button>
                 </form>
             </div>
             <div id="contentDiv" style="clear: right;">
@@ -85,12 +85,12 @@
                                 <tbody>
                                     <tr th:each="note, iterStat : ${notes}">
                                         <td>
-                                            <button th:id="'edit-note'+${iterStat}" type="button" th:onclick="javascript:showNoteModal([[${note.noteId}]], [[${note.noteTitle}]], [[${note.noteDescription}]])" class="btn btn-success">Edit</button>
-                                            <a th:id="'delete-note'+${iterStat}" th:href="@{/note/delete(noteId=*{note.noteId})}" name="delete_note" class="btn btn-danger">Delete</a>
+                                            <button th:id="edit_note" type="button" th:onclick="javascript:showNoteModal([[${note.noteId}]], [[${note.noteTitle}]], [[${note.noteDescription}]])" class="btn btn-success">Edit</button>
+                                            <a th:id="delete_note" th:href="@{/note/delete(noteId=*{note.noteId})}" name="delete_note" class="btn btn-danger">Delete</a>
                                             <!-- delete note -->
                                         </td>
-                                        <th scope="row" th:text=*{note.noteTitle}>Example Note Title</th>
-                                        <td th:text=*{note.noteDescription}>Example Note Description </td>
+                                        <th id="note_title_text" scope="row" th:text=*{note.noteTitle}>Example Note Title</th>
+                                        <td id="note_description_text" th:text=*{note.noteDescription}>Example Note Description </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -131,7 +131,7 @@
 
 
                     <div class="tab-pane fade" id="nav-credentials" role="tabpanel" aria-labelledby="nav-credentials-tab">
-                        <button style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
+                        <button id="showCredentialButton" style="margin: 0.25em;" type="button" class="btn btn-info float-right" onclick="showCredentialModal()">
                             + Add a New Credential
                         </button>
 
@@ -148,12 +148,12 @@
                                 <tbody>
                                 <tr th:each="credential : ${credentials}">
                                     <td>
-                                        <button type="button" class="btn btn-success" th:onclick="javascript:showCredentialModal([[${credential.credentialId}]] ,[[${credential.url}]], [[${credential.username}]], [[${@encryptionService.decryptValue(credential.password, credential.key)}]])">Edit</button>
-                                        <a href="#" name="delete_credential" th:href=@{/credential/delete(id=*{credential.credentialId})} class="btn btn-danger">Delete</a>
+                                        <button id="edit_credential" type="button" class="btn btn-success" th:onclick="javascript:showCredentialModal([[${credential.credentialId}]] ,[[${credential.url}]], [[${credential.username}]], [[${@encryptionService.decryptValue(credential.password, credential.key)}]])">Edit</button>
+                                        <a id="delete_credential" href="#" name="delete_credential" th:href=@{/credential/delete(id=*{credential.credentialId})} class="btn btn-danger">Delete</a>
                                     </td>
-                                    <th scope="row" th:text=*{credential.url}>Example Credential URL</th>
-                                    <td th:text=*{credential.username}>Example Credential Username</td>
-                                    <td th:text=*{credential.password}>Example Credential Password</td>
+                                    <th id="credential_url" scope="row" th:text=*{credential.url}>Example Credential URL</th>
+                                    <td id="credential_username" th:text=*{credential.username}>Example Credential Username</td>
+                                    <td id="credential_password" th:text=*{credential.password}>Example Credential Password</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -172,16 +172,16 @@
                                         <form action="#" th:object=${credential} th:action="@{'/credential/save'}" method="post">
                                             <input type="hidden" th:field=*{credentialId} name="credentialId" id="credential-id">
                                             <div class="form-group">
-                                                <label for="note-title" class="col-form-label">URL</label>
-                                                <input type="text" th:field=*{url} name= "url" class="form-control" id="credential-url" maxlength="100" required>
+                                                <label for="credential_url_input" class="col-form-label">URL</label>
+                                                <input id="credential_url_input" type="text" th:field=*{url} name= "url" class="form-control" maxlength="100" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="note-title" class="col-form-label">Username</label>
-                                                <input type="text" th:field=*{username} name= "username" class="form-control" id="credential-username" maxlength="30" required>
+                                                <label for="credential_username_input" class="col-form-label">Username</label>
+                                                <input id="credential_username_input" type="text" th:field=*{username} name= "username" class="form-control" maxlength="30" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="note-title" class="col-form-label">Password</label>
-                                                <input type="text" th:field=*{password} name= "password" class="form-control" id="credential-password" maxlength="30" required>
+                                                <label for="credential_password_input" class="col-form-label">Password</label>
+                                                <input id="credential_password_input" type="text" th:field=*{password} name= "password" class="form-control" maxlength="30" required>
                                             </div>
                                             <button id="credentialSubmit" type="submit" class="d-none"></button>
                                         </form>

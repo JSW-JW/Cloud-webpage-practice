@@ -7,11 +7,18 @@ public final class TestUtils {
     static public final String username = "vics8246";
     static public final String password = "123";
 
-    static public final String fileName = "addedFileName";
     static public final String noteTitle = "addedNoteTitle";
     static public final String noteDesc = "addedNoteDesc";
 
-    static public final String updatedFileName = "updatedFileName";
     static public final String updatedNoteTitle = "updatedNoteTitle";
     static public final String updatedNoteDesc = "updatedNoteDesc";
+
+    static public final String cred_url = "localhost:8080/login";
+    static public final String cred_username = "vics8246";
+    static public final String cred_password = "123";
+
+    static public final String updated_cred_url = "updatedhost:updatedDomain/update";
+    static public final String updated_cred_username = "admin";
+    static public final String updated_cred_password = "123456";
+
 }
