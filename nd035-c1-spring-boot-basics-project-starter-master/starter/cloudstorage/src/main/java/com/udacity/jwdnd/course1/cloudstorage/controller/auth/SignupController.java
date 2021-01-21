@@ -26,6 +26,11 @@ public class SignupController {
 
     @PostMapping()
     public String postSignup(User user, Model model) {
+        User duplicate = userService.getUser(user.getUsername());
+        if(duplicate != null) {
+            model.addAttribute("errorMsg", "duplicate Username. Please type in different username");
+            return "signup";
+        }
         if (user.getPassword() == null || user.getUsername() == null || user.getFirstName() == null || user.getLastName() == null) {
             model.addAttribute("errorMsg", "All fields are mandatory.");
             return "signup";
